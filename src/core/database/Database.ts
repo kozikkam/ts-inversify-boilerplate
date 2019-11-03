@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { Connection, createConnection } from "mongoose";
+import mongoose, { Connection } from "mongoose";
 import { IConfig } from "../../config/IConfig";
 import { TYPES } from "../../ioc/types";
 import { ILogger } from "../logger/ILogger";
@@ -25,7 +25,7 @@ export class Database implements IDatabase {
 
     public async connect(): Promise<Connection> {
         try {
-            const connection: Connection = await createConnection(
+            const connection: Connection = await mongoose.createConnection(
                 this._config.DB_URL,
                 {
                     keepAlive: true,
@@ -33,6 +33,7 @@ export class Database implements IDatabase {
                     useNewUrlParser: true,
                     useUnifiedTopology: true,
                 });
+            mongoose.set("useCreateIndex", true);
             connection.on("error", (error) => {
                 this.handleError(error);
             });

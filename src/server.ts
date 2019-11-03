@@ -45,7 +45,7 @@ function initMiddlewares(app: Application): void {
     app.use(helmet());
     app.use(cors());
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded());
+    app.use(bodyParser.urlencoded({ extended: true }));
 }
 
 bootstrap();

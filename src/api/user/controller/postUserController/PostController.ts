@@ -4,15 +4,19 @@ import { SuccessResponse } from "../../../../response/SuccessResponse";
 import { inject, injectable } from "inversify";
 import { IUserRepository } from "../../repository/IUserRepository";
 import { IUser } from "../../model/User";
-import { BaseController } from "../../../../core/baseController/BaseController";
 import { USER_REPOSITORIES } from "../../ioc/UserTypes";
 import { IPostUserController } from "./IPostController";
+import { TYPES } from "../../../../ioc/types";
+import { IValidator } from "../../../../core/validator/IValidator";
 
 @injectable()
-export class PostUserController extends BaseController implements IPostUserController {
+export class PostUserController implements IPostUserController {
 
     @inject(USER_REPOSITORIES.IUserRepository)
     private readonly _userRepository: IUserRepository;
+
+    @inject(TYPES.IValidator)
+    protected readonly _validator: IValidator;
 
     async process(req: Request, res: Response): Promise<Response> {
         this._validator.validate(req.body, userPostSchema);

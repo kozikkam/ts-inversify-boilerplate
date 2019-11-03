@@ -30,8 +30,7 @@ async function bootstrap(): Promise<void> {
     app.use(errorHandler.handle());
     process.on("unhandledRejection", (reason: any, p: any) => {
         console.error(reason, "Unhandled rejection at Promise", p);
-    })
-    .on("uncaughtException", (error: any) => {
+    }).on("uncaughtException", (error: any) => {
         console.error(error, "Uncaught Exception thrown");
         process.exit(1);
     });
